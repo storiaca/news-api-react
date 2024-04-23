@@ -1,7 +1,14 @@
+import { Outlet } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
 function App() {
   return (
-    <div className="container mx-auto">
-      <h1 className="text-4xl text-center text-stone-800">React News App</h1>
+    <div className="flex flex-col justify-between h-screen">
+      <Header />
+      <main className="container mx-auto px-4 md:px-0">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
 }
