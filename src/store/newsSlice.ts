@@ -1,13 +1,18 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
+type NewsState = {
+  news: NewsArticleType[];
+};
+
+const initialState: NewsState = {
+  news: [],
+};
 const newsSlice = createSlice({
   name: 'news',
-  initialState: {
-    news: [],
-  },
+  initialState,
   reducers: {
-    saveNewsAction: (state, action) => {
-      console.log(action.payload);
+    saveNewsAction: (state, action: PayloadAction<NewsArticleType>) => {
+      state.news = action.payload;
     },
   },
 });
