@@ -9,8 +9,48 @@ type NewsArticleType = {
   content: string;
   description: string;
   publishedAt: string;
-  source: { id: string; name: string };
+  source?: { id: string; name: string };
   title: string;
   url: string;
   urlToImage: string;
+} & {
+  id: number;
+};
+
+type GuardianArticleType = {
+  apiUrl: string;
+  id: string;
+  pillarId: boolean;
+  pillarName: string;
+  sectionId: string;
+  sectionName: string;
+  type: string;
+  webPublicationDate: string;
+  webTitle: string;
+  webUrl: string;
+};
+
+type Author = {
+  person: { firstName: string }[];
+};
+
+type Headline = {
+  print_headline: string;
+};
+
+type NYTimesArticleType = {
+  abstract: string;
+  byline: Author;
+  headline: Headline;
+  pub_date: string;
+  section_name: string;
+  news_desk: string;
+  snippet: string;
+  source: string;
+  subsection_name: string;
+  type_of_material: string;
+  uri: string;
+  web_url: string;
+  word_count: number;
+  _id: string;
 };

@@ -6,6 +6,7 @@ function NewsSingleCard({ article }: ArticleProps) {
   return (
     <div>
       <h2>{article.title}</h2>
+      <img src={article.urlToImage} alt="" className="h-48 w-40" />
     </div>
   );
 }
