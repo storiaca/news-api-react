@@ -54,3 +54,9 @@ type NYTimesArticleType = {
   word_count: number;
   _id: string;
 };
+
+type PaginationPropsType = {
+  postsPerPage: number;
+  totalPosts: number | string;
+  onPaginate: (pageNumber: number) => void;
+};

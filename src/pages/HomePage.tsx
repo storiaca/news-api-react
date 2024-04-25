@@ -1,18 +1,29 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveNewsAction } from '../store/newsSlice';
 import Loader from '../components/Loader';
+import Pagination from '../components/Pagination';
 import NewsSingleCard from '../components/NewsSingleCard';
+
+interface NewsState {
+  news: NewsArticleType[];
+  searchTerm: string;
+}
+
+import NewsService from '../services/newsService';
 
 // images
 import nyTimesImage from '../assets/ny-times.jpg';
 import guardianImage from '../assets/guardian.jpg';
 
-import NewsService from '../services/newsService';
 function HomePage() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const postsPerPage: number = 12;
   const dispatch = useDispatch();
-  const { news } = useSelector((state) => state.newsStore);
+  const { news, searchTerm } = useSelector(
+    (state: { newsStore: NewsState }) => state.newsStore,
+  );
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -71,7 +82,6 @@ function HomePage() {
           }),
         );
         dispatch(saveNewsAction(dataNewsWithId));
-        //console.log(dataNewsWithId);
         setIsLoaded(true);
       } catch (error) {
         console.log(error);
@@ -82,20 +92,43 @@ function HomePage() {
 
   console.log(news);
 
+  let content;
+
+  if (!isLoaded) {
+    content = (
+      <div className="flex">
+        <Loader />
+      </div>
+    );
+  } else {
+    const indexOfLastPost: number = currentPage * postsPerPage;
+    const indexOfFirstPost: number = indexOfLastPost - postsPerPage;
+    const currentArticles: NewsArticleType[] =
+      news?.slice(indexOfFirstPost, indexOfLastPost) || [];
+
+    content = currentArticles
+      .filter((item) => {
+        return searchTerm.toLowerCase() === ''
+          ? item
+          : item.title.toLowerCase().includes(searchTerm);
+      })
+      .map((article: NewsArticleType) => {
+        return <NewsSingleCard key={article.id} article={article} />;
+      });
+  }
+
+  const onClickPaginate = (pageNumber: number) => setCurrentPage(pageNumber);
   return (
-    <div>
-      <h2>Nesto</h2>
-      {isLoaded ? (
-        news.map((article: NewsArticleType) => {
-          return <NewsSingleCard key={article.id} article={article} />;
-        })
-      ) : (
-        <div className="flex">
-          <Loader />
-        </div>
-      )}
+    <div className="mt-8 container mx-auto ">
+      <h2 className="text-2xl text-center">All News</h2>
+      <div className="flex flex-wrap justify-center mt-5 gap-5">{content}</div>
+      <Pagination
+        postsPerPage={postsPerPage}
+        totalPosts={news.length || 0}
+        onPaginate={onClickPaginate}
+      />
     </div>
   );
 }
 
-export default HomePage;
+export default React.memo(HomePage);

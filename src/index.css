@@ -3,11 +3,20 @@
 @tailwind utilities;
 
 @layer utilities {
+  .input-search {
+    @apply bg-transparent text-white border border-white rounded-lg outline-none px-3 py-2;
+  }
+  .button {
+    @apply text-base inline-block rounded-lg bg-green-700 text-white px-4 py-2 transition-all duration-200 hover:bg-orange-500 shadow-md;
+  }
   .navbar {
     li {
-      .active {
-        @apply text-red-600;
+      a {
+        @apply text-white transition-all duration-200 hover:text-orange-500;
       }
+      /* .active {
+        @apply text-red-600;
+      } */
     }
   }
 
