@@ -89,9 +89,8 @@ function HomePage() {
     };
     fetchNews();
   }, []);
-  useEffect(() => {}, [searchTerm]);
 
-  console.log(news);
+  useEffect(() => {}, [searchTerm]);
 
   let content;
 
