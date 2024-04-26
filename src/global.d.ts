@@ -19,16 +19,28 @@ type NewsArticleType = {
 };
 
 type GuardianArticleType = {
-  apiUrl: string;
   id: string;
-  pillarId: boolean;
-  pillarName: string;
+  type: string;
   sectionId: string;
   sectionName: string;
-  type: string;
   webPublicationDate: string;
   webTitle: string;
   webUrl: string;
+  apiUrl: string;
+  tags: {
+    id: string;
+    type: string;
+    webTitle: string;
+    webUrl: string;
+    apiUrl: string;
+    references: any[];
+    bio: string;
+    firstName: string;
+    lastName: string;
+  }[];
+  isHosted: boolean;
+  pillarId: string;
+  pillarName: string;
 };
 
 type Author = {

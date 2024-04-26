@@ -4,10 +4,10 @@
 
 @layer utilities {
   .input-search {
-    @apply bg-transparent text-white border border-white rounded-lg outline-none px-3 py-2;
+    @apply px-2 py-1 w-full text-sm bg-transparent text-white border border-white rounded-lg outline-none md:px-3 md:py-2 md:text-base;
   }
   .button {
-    @apply text-base inline-block rounded-lg bg-green-700 text-white px-4 py-2 transition-all duration-200 hover:bg-orange-500 shadow-md;
+    @apply text-sm inline-block rounded-lg bg-green-700 text-white px-2 py-1 transition-all duration-200 hover:bg-orange-500 md:px-4 md:py-2 md:text-base;
   }
   .navbar {
     li {

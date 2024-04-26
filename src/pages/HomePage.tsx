@@ -46,7 +46,7 @@ function HomePage() {
         const responseGuardian = await NewsService.getAllGuardian();
         const dataGuardian = responseGuardian.data.response.results.map(
           (item: GuardianArticleType) => ({
-            author: 'unknown',
+            author: item.tags[0]?.webTitle,
             content: item.apiUrl,
             description: item.pillarName,
             publishedAt: item.webPublicationDate,
@@ -61,7 +61,7 @@ function HomePage() {
         const responseNYTimes = await NewsService.getAllNYTimes();
         const dataNyTimes = responseNYTimes.data.response.docs.map(
           (item: NYTimesArticleType) => ({
-            author: item.byline?.person[0]?.firstName,
+            author: item.byline.person[0]?.firstName || 'unknown',
             content: item.snippet,
             description: item.abstract,
             publishedAt: item.pub_date,
@@ -89,6 +89,7 @@ function HomePage() {
     };
     fetchNews();
   }, []);
+  useEffect(() => {}, [searchTerm]);
 
   console.log(news);
 
@@ -96,19 +97,29 @@ function HomePage() {
 
   if (!isLoaded) {
     content = (
-      <div className="flex">
+      <div className="col-span-3 grid place-items-center">
         <Loader />
       </div>
     );
   } else if (searchTerm.length > 1) {
     let filteredNews = [...news];
+
     content = filteredNews
       .filter((item) => {
+        const formattedDate = new Date(item.publishedAt).toLocaleDateString(
+          'en-US',
+          {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          },
+        );
         if (searchTerm === '') {
           return item;
         } else if (
           item.source?.id.toLowerCase().includes(searchTerm) ||
-          item.category.toLowerCase().includes(searchTerm)
+          item.category.toLowerCase().includes(searchTerm) ||
+          formattedDate.toLowerCase().includes(searchTerm)
         ) {
           return item;
         }
@@ -131,7 +142,11 @@ function HomePage() {
 
   return (
     <div className="m-8 container mx-auto ">
-      <h2 className="text-2xl text-center">All News</h2>
+      <h2 className="text-2xl text-center">
+        {searchTerm && searchTerm.length > 1
+          ? `News from: ${searchTerm}`
+          : 'All News'}
+      </h2>
       <div className="grid place-items-center grid-cols-1 md:grid-cols-2 md-2:grid-cols-3 gap-4 mt-5">
         {content}
       </div>

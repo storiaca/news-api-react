@@ -8,14 +8,18 @@ function Search() {
   const dispatch = useDispatch();
 
   function handleSearchTerm(e: React.ChangeEvent<HTMLInputElement>) {
-    e.preventDefault();
     setSearchTerm(e.target.value);
     dispatch(searchTermAction(searchTerm));
   }
 
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSearchTerm('');
+  }
+
   return (
-    <div className="bg-text-stone-800">
-      <form>
+    <div className="order-3 mb-3 bg-text-stone-800 md:order-2 md:mb-0">
+      <form onSubmit={handleSubmit}>
         <div className="flex items-center gap-2">
           <label htmlFor="search" className="sr-only">
             Search
@@ -29,7 +33,7 @@ function Search() {
             value={searchTerm}
             onChange={handleSearchTerm}
           />
-          <Button type="button">Search</Button>
+          <Button type="submit">Search</Button>
         </div>
       </form>
     </div>

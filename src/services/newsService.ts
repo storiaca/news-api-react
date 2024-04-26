@@ -11,7 +11,7 @@ class NewsService {
     );
   static getAllGuardian = () =>
     axios.get(
-      `https://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&api-key=${GUARDIAN_API_KEY}`,
+      `https://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&show-tags=contributor&api-key=${GUARDIAN_API_KEY}`,
     );
   static getAllNYTimes = () =>
     axios.get(

@@ -28,8 +28,11 @@ function NewsSingleCard({ article }: ArticleProps) {
           {article.source?.id}
         </h2>
         <h3 className="text-center mb-2 mt-1">{article.title ?? 'No title'}</h3>
-        <div className="flex justify-between items-center mt-5 px-2">
-          <h4>{formattedDate}</h4>
+        <h4 className="text-stone-600 font-bold mt-3 mb-1">
+          Author: <span className="text-green-700">{article.author}</span>
+        </h4>
+        <div className="flex justify-between items-center w-full">
+          <p>{formattedDate}</p>
           <Link
             className="bg-orange-400 text-white rounded-sm px-3 py-1 hover:bg-green-800 transition-all duration-200"
             to={article.url}
