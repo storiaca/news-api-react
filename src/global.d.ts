@@ -13,6 +13,7 @@ type NewsArticleType = {
   title: string;
   url: string;
   urlToImage: string;
+  category: string;
 } & {
   id: number;
 };
@@ -57,6 +58,6 @@ type NYTimesArticleType = {
 
 type PaginationPropsType = {
   postsPerPage: number;
-  totalPosts: number | string;
+  totalPosts: number;
   onPaginate: (pageNumber: number) => void;
 };

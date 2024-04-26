@@ -39,7 +39,7 @@ function HomePage() {
             title: item.title,
             url: item.url,
             urlToImage: item.urlToImage,
-            categories: [],
+            category: 'techcrunch',
           }),
         );
 
@@ -54,7 +54,7 @@ function HomePage() {
             title: item.webTitle,
             url: item.webUrl,
             urlToImage: guardianImage,
-            categories: item.sectionId,
+            category: item.sectionId,
           }),
         );
 
@@ -69,7 +69,7 @@ function HomePage() {
             title: item.headline.print_headline,
             url: item.web_url,
             urlToImage: nyTimesImage,
-            categories: item.news_desk,
+            category: item.news_desk,
           }),
         );
 
@@ -100,33 +100,50 @@ function HomePage() {
         <Loader />
       </div>
     );
+  } else if (searchTerm.length > 1) {
+    let filteredNews = [...news];
+    content = filteredNews
+      .filter((item) => {
+        if (searchTerm === '') {
+          return item;
+        } else if (
+          item.source?.id.toLowerCase().includes(searchTerm) ||
+          item.category.toLowerCase().includes(searchTerm)
+        ) {
+          return item;
+        }
+      })
+      .map((article: NewsArticleType) => {
+        return <NewsSingleCard key={article.id} article={article} />;
+      });
   } else {
     const indexOfLastPost: number = currentPage * postsPerPage;
     const indexOfFirstPost: number = indexOfLastPost - postsPerPage;
     const currentArticles: NewsArticleType[] =
       news?.slice(indexOfFirstPost, indexOfLastPost) || [];
 
-    content = currentArticles
-      .filter((item) => {
-        return searchTerm.toLowerCase() === ''
-          ? item
-          : item.title.toLowerCase().includes(searchTerm);
-      })
-      .map((article: NewsArticleType) => {
-        return <NewsSingleCard key={article.id} article={article} />;
-      });
+    content = currentArticles.map((article: NewsArticleType) => {
+      return <NewsSingleCard key={article.id} article={article} />;
+    });
   }
 
   const onClickPaginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
-    <div className="mt-8 container mx-auto ">
+    <div className="m-8 container mx-auto ">
       <h2 className="text-2xl text-center">All News</h2>
-      <div className="flex flex-wrap justify-center mt-5 gap-5">{content}</div>
-      <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={news.length || 0}
-        onPaginate={onClickPaginate}
-      />
+      <div className="grid place-items-center grid-cols-1 md:grid-cols-2 md-2:grid-cols-3 gap-4 mt-5">
+        {content}
+      </div>
+      {searchTerm.length > 1 ? (
+        ''
+      ) : (
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={news.length || 0}
+          onPaginate={onClickPaginate}
+        />
+      )}
     </div>
   );
 }

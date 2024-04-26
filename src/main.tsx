@@ -13,7 +13,6 @@ import store from './store/store.ts';
 // pages
 import HomePage from './pages/HomePage.tsx';
 import ErrorPage from './pages/ErrorPage.tsx';
-import SingleArticlePage from './pages/SingleArticlePage.tsx';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -25,10 +24,6 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomePage />,
-      },
-      {
-        path: '/singleArticle/:articleTitle',
-        element: <SingleArticlePage />,
       },
     ],
   },
