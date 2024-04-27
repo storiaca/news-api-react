@@ -1,24 +1,14 @@
-FROM node:20-alpine as BUILD_IMAGE
-WORKDIR /app/news-app
+FROM node:20-alpine
 
-COPY package.json .
+WORKDIR /app
 
-COPY . .
+COPY package*.json .
+COPY tsconfig*.json .
 
 RUN npm install
 
-RUN npm run build
+COPY . .
 
-FROM node:20-alpine as PRODUCTION_IMAGE
-WORKDIR /app/news-app
+EXPOSE 5173
 
-COPY --from=BUILD_IMAGE /app/news-app/dist/ /app/news-app/dist/
-EXPOSE 8080
-
-COPY package.json .
-
-RUN npm install -g typescript
-RUN npm install -g vite
-
-EXPOSE 8080
-CMD ["npm", "run", "preview"]
+CMD ["npm", "run", "dev"]

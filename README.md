@@ -29,15 +29,15 @@ Open [http://localhost:5173](http://localhost:3000) with your browser to see the
 ### Run this command for build docker image
 
 ```bash
-docker build -t <image-name> .
+docker build -t react-app:dev .
 ```
 
 ### Running the docker container
 
 ```bash
-docker run -p 8080:8080 <image-name>
+docker run -p 5173:5173 react-app:dev
 ```
 
 ### Open application:
 
-Open [http://localhost:4173](http://localhost:4173) with your browser to see the result.
+Open [http://localhost:5173](http://localhost:4173) with your browser to see the result.
